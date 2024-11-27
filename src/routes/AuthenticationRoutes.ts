@@ -10,6 +10,7 @@ class AuthenticationRoutes{
         this.AuthenticationController=controller
         this.router.post('/create',this.AuthenticationController.CreateUser)
         this.router.post('/verify',this.AuthenticationController.LoginUser)
+        this.router.post('/tokenVerify',this.AuthenticationController.VerifyToken)
     }
     getRoute():Router{
         return this.router

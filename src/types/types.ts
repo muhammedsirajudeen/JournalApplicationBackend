@@ -6,14 +6,21 @@ export interface CustomRequest extends Request {
         email: "string"
     }
 }
+export interface TokenRequest extends Request{
+    body:{
+        token:string
+    }
+}
 
 export interface IAuthentication {
     CreateUser: (req: CustomRequest, res: Response) => void
     LoginUser :(req: CustomRequest, res: Response) => void
+    VerifyToken:(req:TokenRequest,res:Response)=>void
 }
 
 export interface ISupabaseAuth {
     AddUser: (email: string, password: string) => Promise<boolean>
+    VerifyUser:(email:string,password:string)=>Promise<boolean>
 }
 
 export enum StatusCodes {

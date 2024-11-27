@@ -8,7 +8,11 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 //remember to change this later
-app.use(cors())
+app.use(cors(
+    {
+        credentials:true
+    }
+))
 
 app.use('/auth',AuthRoute)
 
