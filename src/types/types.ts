@@ -24,19 +24,28 @@ export interface ISupabaseAuth {
 }
 
 export interface ISupabaseJournal{
-    AddJournal:(journal:JournalEntry)=>boolean
+    AddJournal:(journal:JournalEntry)=>Promise<null|JournalEntry>
+    GetJournal:(email:string)=>Promise<null|JournalEntry[]>
+    DeleteById:(id:number)=>Promise<boolean>
+    UpdateById:(id:number,journal:string,color:string)=>Promise<null|JournalEntry>
 }
 export interface JournalRequest extends Request{
     body:{
         journal:string,
-        color:string
+        color:string,
+        token:string
     }
 }
 export interface IJournal{
     addJournal:(req:JournalRequest,res:Response)=>void
+    getJournal:(req:JournalRequest,res:Response)=>void
+    DeleteJournalById:(req:JournalRequest,res:Response)=>void
+    updateById:(req:JournalRequest,res:Response)=>void
 }
 
+
 export interface JournalEntry{
+    id?:string,
     journal:string,
     date:string,
     color:string,
