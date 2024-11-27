@@ -23,6 +23,26 @@ export interface ISupabaseAuth {
     VerifyUser:(email:string,password:string)=>Promise<boolean>
 }
 
+export interface ISupabaseJournal{
+    AddJournal:(journal:JournalEntry)=>boolean
+}
+export interface JournalRequest extends Request{
+    body:{
+        journal:string,
+        color:string
+    }
+}
+export interface IJournal{
+    addJournal:(req:JournalRequest,res:Response)=>void
+}
+
+export interface JournalEntry{
+    journal:string,
+    date:string,
+    color:string,
+    email:string
+}
+
 export enum StatusCodes {
     // Informational responses (100–199)
     Continue = 100,

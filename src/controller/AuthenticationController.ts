@@ -3,14 +3,16 @@ import SupabaseAuthenticationService from "@/service/SupabaseAuthenticationServi
 import { CustomRequest, IAuthentication, ISupabaseAuth, TokenRequest } from "@/types/types";
 import { HttpMessage, StatusCodes } from "@/types/types";
 import JwtHelper, { IJwtHelper } from "@/helper/JwtHelper";
+import BaseController from "./BaseController";
 
-class AuthenticationController implements IAuthentication {
-    private SupabaseAuthService: ISupabaseAuth
-    private JwtHelper: IJwtHelper
+class AuthenticationController extends BaseController implements IAuthentication {
+    private SupabaseAuthService:ISupabaseAuth
     constructor(authService: ISupabaseAuth, jwtHelper: IJwtHelper) {
-        this.SupabaseAuthService = authService
-        this.JwtHelper = jwtHelper
+        super(jwtHelper)
+        this.SupabaseAuthService=authService
+
     }
+
     CreateUser = async (req: CustomRequest, res: Response) => {
         try {
             const result = await this.SupabaseAuthService.AddUser(req.body.email, req.body.password)
@@ -39,19 +41,19 @@ class AuthenticationController implements IAuthentication {
             return res.status(StatusCodes.InternalServerError).json({ message: HttpMessage.InternalServerError })
         }
     }
-    VerifyToken= async (req: TokenRequest, res: Response) => {
-        try{
-            const {token}=req.body
-            const result=this.JwtHelper.verifyToken(token)
-            if(result){
-                return res.status(StatusCodes.OK).json({message:HttpMessage.InternalServerError})
-            }else{
-                return res.status(StatusCodes.Forbidden).json({message:HttpMessage.Forbidden})
+    VerifyToken = async (req: TokenRequest, res: Response) => {
+        try {
+            const { token } = req.body
+            const result = this.JwtHelper.verifyToken(token)
+            if (result) {
+                return res.status(StatusCodes.OK).json({ message: HttpMessage.InternalServerError })
+            } else {
+                return res.status(StatusCodes.Forbidden).json({ message: HttpMessage.Forbidden })
             }
-        }catch(error){
+        } catch (error) {
             console.log(error)
             return res.status(StatusCodes.InternalServerError).json({ message: HttpMessage.InternalServerError })
-            
+
         }
     };
 }

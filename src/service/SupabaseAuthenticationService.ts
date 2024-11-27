@@ -1,19 +1,12 @@
 import { ISupabaseAuth } from '@/types/types'
-import { createClient, SupabaseClient, User } from '@supabase/supabase-js'
 import dotenv from "dotenv"
+import { SupabaseBaseService } from './SupabaseBaseService'
 dotenv.config()
 
 
 
-class SupabaseAuthenticationService implements ISupabaseAuth {
-    private url: string
-    private supabaseKey: string
-    private supabase: SupabaseClient
-    constructor() {
-        this.url = 'https://rydeqftmrbthwnqucugh.supabase.co'
-        this.supabaseKey = process.env.SUPABASE_KEY!
-        this.supabase = createClient(this.url, this.supabaseKey)
-    }
+class SupabaseAuthenticationService extends SupabaseBaseService implements ISupabaseAuth {
+
     async checkUser(email: string): Promise<boolean> {
         const { data, error } = await this.supabase
             .schema("public").from('users')  
